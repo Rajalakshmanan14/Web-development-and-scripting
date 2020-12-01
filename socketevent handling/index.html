@@ -1,0 +1,21 @@
+
+<head>
+<script src="socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  
+  socket.on('smsg',(data)=>{
+		console.log(data);
+		socket.send('I am a client');
+	});
+	
+  
+	
+</script>
+</head>
+
+<body>
+<h1> welcome </h1>
+
+</body>
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>
+         simple
+
+        </title>
+        <style>
+            .card {
+                    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                    max-width: 300px;
+                    margin: auto;
+                    text-align: center;
+                    }
+
+                    .title {
+                    color: grey;
+                    font-size: 18px;
+                    }
+
+                    button {
+                    border: none;
+                    outline: 0;
+                    display: inline-block;
+                    padding: 8px;
+                    color: white;
+                    background-color:greenyellow;
+                    text-align: center;
+                    cursor: pointer;
+                    width: 100%;
+                    font-size: 18px;
+                    }
+
+                    a {
+                    text-decoration: none;
+                    font-size: 22px;
+                    color: black;
+                    }
+
+                    button:hover, a:hover {
+                    opacity: 0.7;
+                    }
+        </style>
+        <script src = "/socket.io/socket.io.js"></script>
+   <script>
+      var socket = io();
+      function setUsername() {
+         socket.emit('setUsername', document.getElementById('name').value);
+      };
+      var user;
+      socket.on('userExists', function(data) {
+         document.getElementById('error-container').innerHTML = data;
+      });
+      socket.on('userSet', function(data) {
+         user = data.username;
+         document.body.innerHTML = ' <div class="card"><div style="border-style: inset;"><div id = "message-container"></div><div style="align-items: center;"><input type = "text" id = "message">\
+                        <button type = "button" name = "button" onclick = "sendMessage()" class="btn btn-success" >Send</button>\
+                </div></div></div>';
+      });
+      function sendMessage() {
+         var msg = document.getElementById('message').value;
+         if(msg) {
+            socket.emit('msg', {message: msg, user: user});
+         }
+      }
+      socket.on('newmsg', function(data) {
+         if(user) {
+            document.getElementById('message-container').innerHTML += '<div><b>' + 
+               data.user + '</b>: ' + data.message + '</div>'
+         }
+      })
+   </script>
+    </head>
+    <body>
+        <div class="card">
+            <div id = "error-container"></div>
+      <div style="border-style: inset;" >
+         <input id = "name" type = "text" name = "name" value = "" 
+         placeholder = "Enter your name!">
+      <button type = "button" name = "button" onclick = "setUsername()"  class="btn btn-success" >
+         Let me chat!
+      </button>
+
+      </div>
+          </div>
+
+
+         
+         
+
+          
+        
+    </body>
+</html>

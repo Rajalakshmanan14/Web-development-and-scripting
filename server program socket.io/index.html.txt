@@ -1,0 +1,14 @@
+<head>
+<script src="socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+//var msgArr = new Array();
+
+  
+</script>
+</head>
+
+<body>
+<h1> welcome </h1>
+
+</body>

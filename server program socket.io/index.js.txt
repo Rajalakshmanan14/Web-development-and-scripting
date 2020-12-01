@@ -1,0 +1,25 @@
+const express = require('express');
+const app = express();
+const port = 4200;
+const socketio = require('socket.io');
+var io;
+
+app.get('/',(req,res)=>{
+	res.sendFile(__dirname+'/index1.html');
+});
+
+//app.use(express.static(__dirname + '/public'));
+
+io = socketio.listen(app.listen(port));
+		
+//event handling   ipaddress socket.handshake.address
+
+io.on('connection', (socket) =>{
+	console.log(`${socket.handshake.address} connected at ${new Date()}`);
+       
+	
+	socket.on('disconnect', ()=>{
+		console.log(`${socket.handshake.address} disconnected at ${new Date()}`);
+	});
+		
+});
